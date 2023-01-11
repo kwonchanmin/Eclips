@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="Use"> <!-- namaspace는 XML 파일마다 이름을 구분시키기 위해 다른 이름으로 설정해줘야된다 -->
+
+
+	<!-- parameterType은 MVC과정에서 내가 sql구문을 통해 쿼리값을 가져올려고 할때 쓰는 DAO과정에서 메소드의 인자값의 형태가 String , int , Class type에 따라 다르게 작성해줘야된다. -->
+	<!-- ResultType은 sql에서 가져온 데이터를 어디에 저장할 것인지를 적는 것으로 이번 과정에서는 VO에 데이터정보를 넣줌으로 Config.xml에서 지정해 놓은 VO의 이름을 적어준다.-->
+	<!-- SQL 문장을 작성할 때는 <![CDATA[ ]]> 문장안의 2번째 [ ] 안에 문장을 적어주면 된다. 그리고 내개 입력해줘야하는 값을 #{} 안에 적는데 #{}안의 문자는 DAO의 메소드 문장의 인자와 같아야된다.-->
+	<select id="selectlogin" parameterType="User" resultType="User">
+	<![CDATA[
+			SELECT *
+			FROM users
+			WHERE id = #{id} AND password = #{password}
+	]]>
+	</select>
+
+	<insert id="insertuser" parameterType="User" >
+	<![CDATA[
+			INSERT INTO users
+			VALUES (#{id},#{name},#{password},#{birth},#{tel})
+	]]>
+	</insert>
+	<!-- LIKE 처럼 단어를 찾는 문은 CONCAT(둘 이상의 문자열을 입력한 순서대로 합쳐서 반환해주는 함수)로 작성을 해주면 쉽게 찾을 수 있다. -->
+	<select id="selectuser" parameterType="String"   resultType="User">
+  		<![CDATA[
+			SELECT *
+			FROM users
+			WHERE id LIKE CONCAT('%',#{text},'%')
+			ORDER BY name ASC  	
+  		]]>
+  	</select>
+	
+	<delete id="deleteuser" parameterType="String">
+  		<![CDATA[
+			DELETE
+			FROM users
+			WHERE id =#{deleteid}  	
+  		]]>
+  	</delete>
+	
+	<update id="updateuser" parameterType="User">
+  		<![CDATA[
+			UPDATE users
+			SET name =#{name},
+				password =#{password},
+				birth =#{birth},
+				tel =#{tel}
+			WHERE id =#{id}  	
+  		]]>
+  	</update>
+	
+	
+</mapper>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Use" >
+  
+  	<select id="selectbook" parameterType="String"   resultType="Book">
+  		<![CDATA[
+			SELECT bisbn,btitle,bdate,bpage,bprice,bauthor,btranslator,bsupplement,bpublisher,bborrow
+			FROM book
+			WHERE btitle LIKE CONCAT('%',#{text},'%')
+			ORDER BY btitle ASC  	
+  		]]>
+  	</select>
+  	
+  	<delete id="deletebook" parameterType="String">
+  		<![CDATA[
+			DELETE
+			FROM book
+			WHERE bisbn =#{deleteISBN}  	
+  		]]>
+  	</delete>
+  	
+  	<update id="updateborrow" parameterType="String">
+  		<![CDATA[
+			UPDATE book
+			SET bborrow = 1
+			WHERE bisbn = #{bisbn}  	
+  		]]>
+  	</update>
+  	
+  	<select id="selectborrow" resultType="Book">
+  		<![CDATA[
+			SELECT bborrow
+			FROM book
+			WHERE bborrow = 0	
+  		]]>
+  	</select>
+  	
+  	<update id="updateborrow1" parameterType="String">
+  		<![CDATA[
+			UPDATE book
+			SET bborrow = 0
+			WHERE bisbn =#{bisbn}  	
+  		]]>
+  	</update>
+  	
+  <insert id="insertbook" parameterType="Book">
+  		<![CDATA[
+			INSERT INTO book(bisbn,btitle,bdate,bpage,bprice,bauthor,btranslator,bsupplement,bpublisher)
+			VALUES (#{bisbn},
+					#{btitle},
+					#{bdate},
+					#{bpage},
+					#{bprice},
+					#{bauthor},
+					#{btranslator},
+					#{bsupplement},
+					#{bpublisher})
+		]]>
+  	</insert>
+  	
+  	<update id="updatebook2" parameterType="Book">
+  		<![CDATA[
+			UPDATE book
+			SET btitle =#{btitle},
+				bdate =#{bdate},
+				bpage =#{bpage},
+				bprice=#{bprice},
+				bauthor =#{bauthor},
+				btranslator =#{btranslator},
+				bsupplement =#{bsupplement},
+				bpublisher =#{bpublisher}
+			WHERE bisbn =#{bisbn}  	
+  		]]>
+  	</update>
+</mapper>
