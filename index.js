@@ -155,3 +155,4 @@ let myVar = 1; // 전역변수(global variable)
     let myVar = 100;
 }
 
+console.log("test");
